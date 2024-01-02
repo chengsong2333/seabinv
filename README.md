@@ -74,3 +74,4 @@ You can also create your own synthetic data set with `create_testdata.py`.
 * SWD forward modeling: SURF96 from Computer Programs in Seismology ([CPS](http://www.eas.slu.edu/eqc/eqccps.html)). Python wrapper using [pysurf96](https://github.com/miili/pysurf96) and [SurfTomo](https://github.com/caiweicaiwei/SurfTomo).
 * RF forward modeling: **rfmini** from [Joachim Saul, GFZ](https://www.gfz-potsdam.de/en/staff/joachim-saul/).
 * H/V ratio forward modeling: **Disba** from (https://github.com/keurfonluu/disba)
+# seabinv
