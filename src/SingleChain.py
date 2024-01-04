@@ -64,6 +64,7 @@ class SingleChain(object):
 
         self.propdist = np.array(self.initparams['propdist'])
         self.acceptance = self.initparams['acceptance']
+        self.yearmin = self.initparams['yearmin']
         self.maxlayers = int(self.priors['segments'][1])
 
         self.initmodel = initmodel
@@ -90,7 +91,7 @@ class SingleChain(object):
 
     def _init_model_and_currentvalues(self):
         if self.initmodel:
-            x_age, y_rsl = np.loadtxt('results/best_like_model.txt').T
+            x_age, y_rsl = np.loadtxt('results/best_mode_model.txt').T
             imodel = np.concatenate((x_age, y_rsl))
             noiserefs = ['noise_corr', 'noise_sigma']
             init_noise = np.ones(len(self.targets.targets)*2) * np.nan
@@ -112,7 +113,7 @@ class SingleChain(object):
                     self.noisepriors.append(noiseprior)
 
             self.noiseinds = np.where(corrfix == 0)[0]
-            inoise = np.loadtxt('results/best_like_noise.txt')
+            inoise = np.loadtxt('results/best_mode_noise.txt')
             print('re-sampling')
             # self.currentmodel = imodel
         else:
@@ -197,6 +198,8 @@ class SingleChain(object):
         for i, target in enumerate(self.targets.targets):
             target_corrfix = corrfix[i]
             target_noise_corr = noise_corr[i]
+
+            self.x_obs = target.obsdata.x
 
             if not target_corrfix:
                 # exponential for each target
@@ -308,7 +311,7 @@ exponential law. Explicitly state a noise reference for your user target \
         x_age, y_rsl = Model.get_age_rsl(model)
 
         low = 1
-        high = int(model.size / 2) - 2
+        high = int(model.size / 2) - 1
         if low==high:
             ind_death = low
         else:
@@ -334,7 +337,7 @@ exponential law. Explicitly state a noise reference for your user target \
     def _model_age_move(self, model):
         """Randomly chose a layer to change age with Gauss distribution."""
         low = 1
-        high = int(model.size / 2) - 2
+        high = int(model.size / 2) - 1
         if low==high:
             ind = low
         else:
@@ -384,6 +387,11 @@ exponential law. Explicitly state a noise reference for your user target \
         """
         x_age, y_rsl = Model.get_age_rsl(model)
 
+        # only allow at most 1 segment between year's interval
+        hist, _ = np.histogram(x_age, bins=self.x_obs)
+        if np.any(hist > 1):
+            return False
+
         # check whether nlayers lies within the prior
         layermin = self.priors['segments'][0]
         layermax = self.priors['segments'][1]
@@ -393,11 +401,11 @@ exponential law. Explicitly state a noise reference for your user target \
                          % self.chainidx)
             return False
 
-        # # check model for layers with thicknesses of smaller thickmin
-        # if np.any(h[:-1] < self.thickmin):
-        #     logger.debug("chain%d: thicknesses are not larger than thickmin"
-        #                  % self.chainidx)
-        #     return False
+        # check model for layers with thicknesses of smaller yearmin
+        if np.any(x_age[1:]-x_age[:-1] < self.yearmin):
+            logger.debug("chain%d: year are not larger than yearmin"
+                         % self.chainidx)
+            return False
 
         # check whether rsl lies within the prior
         # rslmin = self.priors['rsl'][0]

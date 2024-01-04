@@ -1071,10 +1071,9 @@ class PlotFromStorage(object):
         cvs, cdepth = Model.get_stepmodel_from_h(x_age, y_rsl)
         ax.plot(cvs, cdepth, ls='-', lw=0.8, alpha=0.5, label='Best mode model')
 
-
         x_age, y_rsl = Model.get_age_rsl(bestmodel)
         np.savetxt('./results/best_like_model.txt', np.column_stack((x_age, y_rsl)))
-        np.savetxt('./results/best_like_noise.txt', bestnoise)
+        np.savetxt('./resultsbest_like_noise.txt', bestnoise)
 
         cvs, cdepth = Model.get_stepmodel_from_h(x_age, y_rsl)
         ax.plot(cvs, cdepth, ls='-', lw=0.8, alpha=0.5, label='Best likelihood model')

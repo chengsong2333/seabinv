@@ -82,7 +82,7 @@ initparams.update({'nchains': 6,
 utils.save_baywatch_config(targets, path='.', priors=priors,
                            initparams=initparams)
 optimizer = MCMC_Optimizer(targets, initparams=initparams, priors=priors,
-                           random_seed=None, initmodel=True, parallel_tempering=True)
+                           random_seed=None, initmodel=True, parallel_tempering=False)
 optimizer.mp_inversion(nthreads=6, baywatch=False)
 
 
@@ -98,7 +98,7 @@ obj = PlotFromStorage(configfile)
 # of dev * 100 % from the median posterior likelihood of the best chain.
 obj.save_final_distribution(maxmodels=100000)
 # Save a selection of important plots
-obj.save_plots(nchains=initparams['nchains'], depint = 2)
+obj.save_plots(nchains=initparams['nchains'], depint = 5)
 
 #
 # If you are only interested on the mean posterior velocity model, type:

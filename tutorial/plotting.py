@@ -7,6 +7,7 @@
 # #############################
 
 import os
+import glob
 # set os.environment variables to ensure that numerical computations
 # do not do multiprocessing !! Essential !! Do not change !
 os.environ["MKL_NUM_THREADS"] = "1"
@@ -68,9 +69,9 @@ priors.update({'age': (x_obs[0], x_obs[-1]),  # optional, moho estimate (mean, s
                'rsl': (min(y_obs),max(y_obs)),
                })
 initparams.update({'nchains': 6,
-                   'iter_burnin': (5000000),
+                   'iter_burnin': (1000000),
                    'iter_main': (100000),
-                   'propdist': ((priors['age'][1]-priors['age'][0])/30, (priors['rsl'][1]-priors['rsl'][0])/30, (priors['rsl'][1]-priors['rsl'][0])/30, 0.005),
+                   'propdist': ((priors['age'][1]-priors['age'][0])/30, (priors['rsl'][1]-priors['rsl'][0])/30, (priors['rsl'][1]-priors['rsl'][0])/30, 0.01),
                    })
 
 
@@ -81,7 +82,7 @@ initparams.update({'nchains': 6,
 utils.save_baywatch_config(targets, path='.', priors=priors,
                            initparams=initparams)
 #optimizer = MCMC_Optimizer(targets, initparams=initparams, priors=priors,
-#                           random_seed=None, initmodel=False, parallel_tempering=True)
+#                           random_seed=None, initmodel=True, parallel_tempering=True)
 #optimizer.mp_inversion(nthreads=6, baywatch=False)
 
 
@@ -97,7 +98,7 @@ obj = PlotFromStorage(configfile)
 # of dev * 100 % from the median posterior likelihood of the best chain.
 obj.save_final_distribution(maxmodels=100000)
 # Save a selection of important plots
-obj.save_plots(nchains=initparams['nchains'], depint = 2)
+obj.save_plots(nchains=initparams['nchains'], depint = 5)
 
 #
 # If you are only interested on the mean posterior velocity model, type:
@@ -112,6 +113,10 @@ vs, dep = singlemodels['mode']
 np.savetxt('./results/mode_model.txt', np.column_stack((dep,vs)))
 stdminmax, dep = singlemodels['stdminmax']
 np.savetxt('./results/std_model.txt', np.column_stack((dep, stdminmax[0,:], stdminmax[1,:])))
+
+# delet chain files
+for c in glob.glob('results/data/c0*'):
+    os.remove(c)
 
 #
 # #  ---------------------------------------------- WATCH YOUR INVERSION
