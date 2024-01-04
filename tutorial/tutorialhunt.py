@@ -66,7 +66,7 @@ targets = Targets.JointTarget(targets=[target1])
                # 'rfnoise_sigma': np.std(yrf_err),  # fixed to true value
                # 'swdnoise_sigma': np.std(ysw_err),  # fixed to true value
 priors.update({'age': (x_obs[0], x_obs[-1]),  # optional, moho estimate (mean, std)
-               'rsl': (min(y_obs),max(y_obs)),
+               'rsl': (min(y_obs),max(y_obs)+0.1),
                })
 initparams.update({'nchains': 6,
                    'iter_burnin': (1000000),

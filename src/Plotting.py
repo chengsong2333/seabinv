@@ -1084,7 +1084,7 @@ class PlotFromStorage(object):
         #         alpha=0.8, label=label)
 
         # ax.invert_yaxis()
-        ax.set_xlabel('Age (BP)')
+        ax.set_xlabel('Age (year)')
         ax.set_ylabel('RSL (m)')
         # ax.set_xlim(self.priors['vs'])
         ax.set_ylim(self.priors['rsl'])
