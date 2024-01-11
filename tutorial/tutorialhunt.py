@@ -61,11 +61,8 @@ targets = Targets.JointTarget(targets=[target1])
 # also simply define the dictionaries directly in the script, if you don't want
 # to use a config.ini file. Or update the dictionaries as follows, e.g. if you
 # have station specific values, etc.
-# See docs/bayhunter.pdf for explanation of parameters
 
-               # 'rfnoise_sigma': np.std(yrf_err),  # fixed to true value
-               # 'swdnoise_sigma': np.std(ysw_err),  # fixed to true value
-priors.update({'age': (x_obs[0], x_obs[-1]),  # optional, moho estimate (mean, std)
+priors.update({'age': (x_obs[0], x_obs[-1]),  # set the prior bound slightly larger than the observation
                'rsl': (min(y_obs),max(y_obs)+0.1),
                })
 initparams.update({'nchains': 6,
@@ -82,7 +79,7 @@ initparams.update({'nchains': 6,
 utils.save_baywatch_config(targets, path='.', priors=priors,
                            initparams=initparams)
 optimizer = MCMC_Optimizer(targets, initparams=initparams, priors=priors,
-                           random_seed=None, initmodel=True, parallel_tempering=False)
+                           random_seed=None, initmodel=True, parallel_tempering=True)
 optimizer.mp_inversion(nthreads=6, baywatch=False)
 
 
@@ -93,9 +90,6 @@ cfile = '%s_config.pkl' % initparams['station']
 configfile = op.join(path, 'data', cfile)
 obj = PlotFromStorage(configfile)
 # The final distributions will be saved with save_final_distribution.
-# Beforehand, outlier chains will be detected and excluded.
-# Outlier chains are defined as chains with a likelihood deviation
-# of dev * 100 % from the median posterior likelihood of the best chain.
 obj.save_final_distribution(maxmodels=100000)
 # Save a selection of important plots
 obj.save_plots(nchains=initparams['nchains'], depint = 5)
@@ -114,7 +108,7 @@ np.savetxt('./results/mode_model.txt', np.column_stack((dep,vs)))
 stdminmax, dep = singlemodels['stdminmax']
 np.savetxt('./results/std_model.txt', np.column_stack((dep, stdminmax[0,:], stdminmax[1,:])))
 
-# delet chain files
+# del large chain files
 for c in glob.glob('results/data/c0*'):
     os.remove(c)
 

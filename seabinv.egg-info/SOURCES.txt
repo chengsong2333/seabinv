@@ -1,3 +1,4 @@
+LICENSE
 README.md
 setup.py
 seabinv.egg-info/PKG-INFO

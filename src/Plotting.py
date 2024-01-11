@@ -401,7 +401,7 @@ class PlotFromStorage(object):
 
         fig, ax = plt.subplots(figsize=(7, 4))
         ax = self._plot_iitervalues(files, ax, layer=True)
-        ax.set_ylabel('Number of layers')
+        ax.set_ylabel('Number of segments')
         return fig
 
 
@@ -430,7 +430,7 @@ class PlotFromStorage(object):
         ax.plot(x, y, color='red', lw=1, alpha=0.9)
         # ax.invert_yaxis()
         ax.set_ylabel('RSL (m)')
-        ax.set_xlabel('Age (BP)')
+        ax.set_xlabel('Age (year)')
 
         han, lab = ax.get_legend_handles_labels()
         ax.legend(han[:-1], lab[:-1], loc=3, fontsize=10)
@@ -505,8 +505,9 @@ class PlotFromStorage(object):
         bins, lay_bin, _ = np.array(data).T
         center_lay = (lay_bin[:-1] + lay_bin[1:]) / 2.
 
-        axes[1].set_ylabel('RSL (m)')
-        axes[0].set_xlabel('Age (BP)')
+        axes[0].set_ylabel('RSL (m)')
+        axes[1].set_xlabel('Age (year)')
+        axes[1].set_ylabel('Counts')
 
         # axes[0].invert_yaxis()
 
@@ -1009,7 +1010,7 @@ class PlotFromStorage(object):
             ax.plot(cvs, cdepth, color=color, ls='-', lw=0.8, alpha=0.5, label=str(chainidx))
 
         # ax.invert_yaxis()
-        ax.set_xlabel('Age (BP)')
+        ax.set_xlabel('Age (year)')
         ax.set_ylabel('RSL (m)')
         # ax.set_xlim(self.priors['vs'])
         ax.set_ylim(self.priors['rsl'])
@@ -1073,7 +1074,7 @@ class PlotFromStorage(object):
 
         x_age, y_rsl = Model.get_age_rsl(bestmodel)
         np.savetxt('./results/best_like_model.txt', np.column_stack((x_age, y_rsl)))
-        np.savetxt('./resultsbest_like_noise.txt', bestnoise)
+        np.savetxt('./results/best_like_noise.txt', bestnoise)
 
         cvs, cdepth = Model.get_stepmodel_from_h(x_age, y_rsl)
         ax.plot(cvs, cdepth, ls='-', lw=0.8, alpha=0.5, label='Best likelihood model')
@@ -1143,14 +1144,14 @@ class PlotFromStorage(object):
             han, lab = ax[0].get_legend_handles_labels()
             handles, labels = self._unique_legend(han, lab)
             ax[0].legend().set_visible(False)
-            ax[-1].set_xlabel('Age (BP)')
+            ax[-1].set_xlabel('Age (year)')
         else:
             ax.set_title('Best data fits from %d chains' %
                          (len(modfiles)-self.outliers.size))
             han, lab = ax.get_legend_handles_labels()
             handles, labels = self._unique_legend(han, lab)
             ax.legend().set_visible(False)
-            ax.set_xlabel('Age (BP)')
+            ax.set_xlabel('Age (year)')
         fig.legend(handles, labels, loc='center left',
                  bbox_to_anchor=(0.92, 0.5))
         return fig

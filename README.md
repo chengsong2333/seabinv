@@ -1,7 +1,10 @@
 # seabinv v1.0
 
-seabinv, based on Bayhunter[http://doi.org/10.5880/GFZ.2.4.2019.001](http://doi.org/10.5880/GFZ.2.4.2019.001), is an open source Python tool to perform a parallel tempering McMC transdimensional Bayesian inversion of Sea level. The algorithm follows a data-driven strategy and solves for the age (BP), the number of segment, noise.
+seabinv, based on BayHunter [http://doi.org/10.5880/GFZ.2.4.2019.001](http://doi.org/10.5880/GFZ.2.4.2019.001), is an open source Python tool to perform a parallel tempering McMC trans-dimensional Bayesian inversion of sea level. The algorithm follows a data-driven strategy and solves for the age, the number of segment, noise.
 
+### features
+* Parallel tempering
+* Trans-dimensional Bayesion inversion
 
 ### Citation
 
@@ -45,7 +48,6 @@ The documentation to seabinv offers background information on the inversion algo
 
 An example inversion can be found in the **tutorial folder**.
 The file to be run, `tutorialhunt.py`, is spiked with comments.
-You can also create your own synthetic data set with `create_testdata.py`.
 
 ### Resources
 

@@ -46,7 +46,7 @@ class ModeledData(object):
         if ref in rsl_target:
             from seabinv.RSL_fw import RSL
             self.plugin = RSL(obsx, ref)
-            self.xlabel = 'Year (BP)'
+            self.xlabel = 'Year'
 
         else:
             message = "Please provide a forward modeling plugin for your " + \

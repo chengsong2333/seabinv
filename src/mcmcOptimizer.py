@@ -159,7 +159,7 @@ class MCMC_Optimizer(object):
         if tempering:
             self.temperatures = sharedtemperatures
             t1 = np.ones(int(self.nchains/4)) # select 1/4 of chains with T=1
-            temperatures = np.concatenate((t1,np.logspace(np.log10(1),np.log10(2),self.nchains-np.size(t1)))) # T=1-2
+            temperatures = np.concatenate((t1,np.logspace(np.log10(1),np.log10(1.15),self.nchains-np.size(t1)))) # T=1-2
             self.temperatures[:,0] = temperatures
             self.likelihoods = np.frombuffer(self.sharedlikes_current,
                                              dtype=np.float32)
