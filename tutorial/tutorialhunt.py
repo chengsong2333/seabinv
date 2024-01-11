@@ -62,8 +62,8 @@ targets = Targets.JointTarget(targets=[target1])
 # to use a config.ini file. Or update the dictionaries as follows, e.g. if you
 # have station specific values, etc.
 
-priors.update({'age': (x_obs[0], x_obs[-1]),  # set the prior bound slightly larger than the observation
-               'rsl': (min(y_obs),max(y_obs)+0.1),
+priors.update({'age': (x_obs[0], x_obs[-1]+10),  # set the prior bound slightly larger than the observation
+               'rsl': (min(y_obs)-0.5,max(y_obs)+0.5),
                })
 initparams.update({'nchains': 6,
                    'iter_burnin': (1000000),
@@ -79,7 +79,7 @@ initparams.update({'nchains': 6,
 utils.save_baywatch_config(targets, path='.', priors=priors,
                            initparams=initparams)
 optimizer = MCMC_Optimizer(targets, initparams=initparams, priors=priors,
-                           random_seed=None, initmodel=True, parallel_tempering=True)
+                           random_seed=None, initmodel=True, parallel_tempering=False)
 optimizer.mp_inversion(nthreads=6, baywatch=False)
 
 

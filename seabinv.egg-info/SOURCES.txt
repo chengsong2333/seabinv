@@ -14,8 +14,6 @@ src/SynthObs.py
 src/Targets.py
 src/__init__.py
 src/mcmcOptimizer.py
-src/rfmini_modrf.py
-src/surf96_modsw.py
 src/utils.py
 src/defaults/defaults.ini
 src/scripts/baywatch_rsl

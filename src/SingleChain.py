@@ -311,7 +311,7 @@ exponential law. Explicitly state a noise reference for your user target \
         x_age, y_rsl = Model.get_age_rsl(model)
 
         low = 1
-        high = int(model.size / 2) - 1
+        high = int(model.size / 2)
         if low==high:
             ind_death = low
         else:
@@ -337,7 +337,7 @@ exponential law. Explicitly state a noise reference for your user target \
     def _model_age_move(self, model):
         """Randomly chose a layer to change age with Gauss distribution."""
         low = 1
-        high = int(model.size / 2) - 1
+        high = int(model.size / 2)
         if low==high:
             ind = low
         else:
