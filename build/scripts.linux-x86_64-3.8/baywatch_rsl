@@ -1,4 +1,0 @@
-#!/home/cheng/anaconda3/bin/python
-from seabinv.BayWatch_rsl import main
-
-main()

@@ -39,7 +39,7 @@ I am Cheng Song. I am now a PhD student of Seoul National University. [Contact m
 ```sh
 git clone https://github.com/chengsong2333/seabinv
 cd seabinv
-sudo python setup.py install
+python setup.py install
 ```
 
 ### Documentation and Tutorial
